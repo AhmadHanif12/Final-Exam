@@ -30,11 +30,10 @@ pipeline {
                     // Create and activate new venv with error handling
                     bat '''
                         python -m pip install --upgrade pip
-                        python -m pip install virtualenv
                         python -m virtualenv venv
                         call venv\\Scripts\\activate.bat
-                        python -m pip install -r requirements.txt
-                        python -m pip install pytest pytest-flask
+                        pip install -r requirements.txt
+                        pip install requests pytest pytest-flask urllib3
                     '''
                 }
             }
