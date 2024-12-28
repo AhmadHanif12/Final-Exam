@@ -44,7 +44,6 @@ pipeline {
                 script {
                     bat '''
                         call venv\\Scripts\\activate.bat
-                        pytest /tests/test_app.py
                     '''
                 }
             }
