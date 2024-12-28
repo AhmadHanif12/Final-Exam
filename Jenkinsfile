@@ -31,7 +31,6 @@ pipeline {
                     bat '''
                         python -m pip install --upgrade pip
                         python -m virtualenv venv
-                        call venv\\Scripts\\activate.bat
                         pip install -r requirements.txt
                         pip install requests pytest pytest-flask urllib3
                     '''
@@ -43,7 +42,6 @@ pipeline {
             steps {
                 script {
                     bat '''
-                        call venv\\Scripts\\activate.bat
                     '''
                 }
             }
@@ -53,7 +51,6 @@ pipeline {
             steps {
                 script {
                     bat '''
-                        call venv\\Scripts\\activate.bat
                         python app.py
                     '''
                 }
