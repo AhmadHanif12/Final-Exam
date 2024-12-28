@@ -24,12 +24,18 @@ pipeline {
         stage('Setup Python') {
             steps {
                 script {
-                    bat """
-                        python -m venv ${VENV}
-                        .\\${VENV}\\Scripts\\activate.bat
-                        pip install -r requirements.txt
-                        pip install pytest pytest-flask
-                    """
+                    // Delete existing venv if it exists
+                    bat 'if exist venv rmdir /s /q venv'
+                    
+                    // Create and activate new venv with error handling
+                    bat '''
+                        python -m pip install --upgrade pip
+                        python -m pip install virtualenv
+                        python -m virtualenv venv
+                        call venv\\Scripts\\activate.bat
+                        python -m pip install -r requirements.txt
+                        python -m pip install pytest pytest-flask
+                    '''
                 }
             }
         }
@@ -37,10 +43,10 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    bat """
-                        .\\${VENV}\\Scripts\\activate.bat
+                    bat '''
+                        call venv\\Scripts\\activate.bat
                         pytest test_encryption.py -v
-                    """
+                    '''
                 }
             }
         }
@@ -48,10 +54,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    bat """
-                        .\\${VENV}\\Scripts\\activate.bat
+                    bat '''
+                        call venv\\Scripts\\activate.bat
                         python app.py
-                    """
+                    '''
                 }
             }
         }
